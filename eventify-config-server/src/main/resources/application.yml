@@ -7,8 +7,16 @@ spring:
         config:
             server:
                 git:
-                    uri: https://github.com/RodrigoPLopesIA/eventify-microservices
-                    search-paths: 
-                        - user-service*
-                        
-          
+                    uri: https://github.com/RodrigoPLopesIA/eventify-config-server-envs
+                    search-paths:
+                        - .
+                    clone-on-start: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+  endpoint:
+    health:
+      show-details: always
