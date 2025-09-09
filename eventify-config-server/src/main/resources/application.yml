@@ -3,5 +3,12 @@ server:
 spring:
     application:
         name: eventify-config-server
-    config:
-        import: 
+    cloud:
+        config:
+            server:
+                git:
+                    uri: https://github.com/RodrigoPLopesIA/eventify-microservices
+                    search-paths: 
+                        - user-service*
+                        
+          
