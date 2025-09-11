@@ -1,0 +1,18 @@
+
+version: '3.9'
+
+services:
+  database: 
+    container_name: user_ms_db
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: user_service_db
+    volumes:
+      - user_service_data:/var/lib/postgresql/data
+
+volumes:
+  user_service_data:
