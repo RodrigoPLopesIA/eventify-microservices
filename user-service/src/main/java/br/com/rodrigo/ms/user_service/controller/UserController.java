@@ -2,22 +2,28 @@ package br.com.rodrigo.ms.user_service.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Value;
+
+import br.com.rodrigo.ms.user_service.dtos.ResponseAddressDTO;
+import br.com.rodrigo.ms.user_service.proxies.CepProxy;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     
-    @Value("${greeting}")
-    private String greeting;
+    @Autowired 
+    private CepProxy cepProxy;
+
+    @GetMapping("/{cep}")
+    public ResponseEntity<ResponseAddressDTO> index(@PathVariable("cep") String cep) {
+        ResponseAddressDTO enderecoPorCep = cepProxy.getEnderecoPorCep(cep);
     
-    @GetMapping
-    public ResponseEntity<String> index() {
-        return ResponseEntity.ok(greeting);
+        return ResponseEntity.ok(enderecoPorCep);
     }
     
 }
