@@ -18,5 +18,10 @@ spring:
             - id: user-service
               uri: lb://user-service
               predicates:
-                - Path=/users/**
+                - Path=/profile/**
               filters: []
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/eventify-realm
