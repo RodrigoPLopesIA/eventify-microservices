@@ -1,4 +1,4 @@
-package br.com.rodrigo.ms.user_service;
+package br.com.rodrigo.ms.event_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

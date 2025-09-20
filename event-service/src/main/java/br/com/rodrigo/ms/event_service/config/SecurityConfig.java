@@ -1,4 +1,4 @@
-package br.com.rodrigo.ms.user_service.config;
+package br.com.rodrigo.ms.event_service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
