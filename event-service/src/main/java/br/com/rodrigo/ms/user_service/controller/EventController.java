@@ -24,31 +24,17 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 
 @RestController
-@RequestMapping("/profile")
-public class UserController {
+@RequestMapping("/events")
+public class EventController {
 
 
-    @Autowired
-    private KeycloakService keycloakService;
 
-
-    @GetMapping
-    public ResponseEntity<UserRepresentation> index(@AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
-        UserRepresentation user = keycloakService.getProfile(userId);
-        return ResponseEntity.ok(user);
-    }
-
-    @PutMapping
-    public ResponseEntity<UserRepresentation> update(@AuthenticationPrincipal Jwt jwt, @RequestBody RequestProfileDTO data) {
-        String userId = jwt.getSubject();
-        UserRepresentation updateProfile = keycloakService.updateProfile(userId, data);
-        return ResponseEntity.ok().body(updateProfile);
-    }
 
     
     
