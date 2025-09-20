@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.rodrigo.ms.event_service.dtos.RequestEventDTO;
+import br.com.rodrigo.ms.event_service.dtos.ResponseEventDTO;
 import br.com.rodrigo.ms.event_service.entities.Event;
 import br.com.rodrigo.ms.event_service.mapper.EventMapper;
 import br.com.rodrigo.ms.event_service.models.Address;
@@ -21,9 +22,10 @@ public class EventService {
     private EventMapper eventMapper;
 
     @Transactional()
-    public Event createEvent(RequestEventDTO eventDTO, String organizerId) {
+    public ResponseEventDTO createEvent(RequestEventDTO eventDTO, String organizerId) {
         Event event = eventMapper.toEvent(eventDTO);
         event.setOrganizerId(organizerId);
-        return eventRepository.save(event);   
+        Event savedEvent = eventRepository.save(event);
+        return eventMapper.toResponseEventDTO(savedEvent);   
     }
 }
