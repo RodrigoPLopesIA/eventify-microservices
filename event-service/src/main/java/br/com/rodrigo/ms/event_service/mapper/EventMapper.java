@@ -23,6 +23,13 @@ public interface EventMapper {
     @Mapping(target = "postalCode", source = "address.postalCode")
     ResponseEventDTO toResponseEventDTO(Event event);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "organizerId", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "address", expression = "java(mapToAddress(dto))")
+    Event updateEventFromDto(RequestEventDTO dto, @org.mapstruct.MappingTarget Event event);
+    
     default Address mapToAddress(RequestEventDTO dto) {
         if (dto == null) {
             return null;
