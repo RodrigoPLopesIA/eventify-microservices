@@ -1,5 +1,20 @@
 
 services:
+
+  event_service:
+    container_name: event_ms_service
+    build: 
+      context: ./event-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - event_service_database
+      - config-server
+      - name-server
+    networks:
+      - keycloak-net
+
   event_service_database: 
     container_name: event_ms_db
     image: postgres:15

@@ -2,12 +2,12 @@ spring:
   application:
     name: event-service
   config:
-    import: "optional:configserver:http://localhost:8888/"
+    import: "optional:configserver:http://config-server:8888/"
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/eventify-realm
+          issuer-uri: http://keycloak:8080/realms/eventify-realm
 
   profiles:
     active:
@@ -15,5 +15,5 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka 
+      defaultZone: http://name-server:8761/eureka 
   
