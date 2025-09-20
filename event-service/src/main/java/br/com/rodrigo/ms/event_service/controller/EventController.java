@@ -58,6 +58,7 @@ public class EventController {
             @PathVariable("id") String id,
             @Valid @RequestBody RequestEventDTO data,
             @AuthenticationPrincipal Jwt jwt) {
+                
         String organizerId = jwt.getSubject();
         ResponseEventDTO updatedEvent = eventService.updateEvent(id, data, organizerId);
         return ResponseEntity.ok(updatedEvent);

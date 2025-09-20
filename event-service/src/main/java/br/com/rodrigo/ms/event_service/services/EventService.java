@@ -53,16 +53,24 @@ public class EventService {
         var updatedData = eventMapper.updateEventFromDto(data, event);
 
         Event updatedEvent = eventRepository.save(updatedData);
-        
+
         return eventMapper.toResponseEventDTO(updatedEvent);
     }
     public void deleteEvent(String id, String organizerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEvent'");
+        Event event = eventRepository.findById(UUID.fromString(id))
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
+
+        if (!event.getOrganizerId().equals(organizerId)) {
+            throw new IllegalArgumentException("You cannot delete an event you do not own.");
+        }
+
+        eventRepository.delete(event);
+
     }
     
     public ResponseEventDTO findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        Event event = eventRepository.findById(UUID.fromString(id))
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
+        return eventMapper.toResponseEventDTO(event);
     }
 }
