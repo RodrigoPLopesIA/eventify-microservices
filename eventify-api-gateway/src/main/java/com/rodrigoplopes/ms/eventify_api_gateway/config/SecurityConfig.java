@@ -19,7 +19,7 @@ public class SecurityConfig {
             http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable) 
                 .authorizeExchange(exchanges -> exchanges
-                    .pathMatchers("/profile/**").authenticated()
+                    .pathMatchers("/events/**").authenticated()
                    
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

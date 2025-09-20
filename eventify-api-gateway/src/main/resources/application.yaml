@@ -15,10 +15,10 @@ spring:
               lower-case-service-id: true
 
           routes:
-            - id: user-service
-              uri: lb://user-service
+            - id: event-service
+              uri: lb://event-service
               predicates:
-                - Path=/profile/**
+                - Path=/events/**
               filters: []
   security:
     oauth2:

@@ -1,10 +1,10 @@
-package br.com.rodrigo.ms.user_service;
+package br.com.rodrigo.ms.event_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserServiceApplicationTests {
+class EventServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
