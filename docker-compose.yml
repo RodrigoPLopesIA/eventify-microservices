@@ -1,8 +1,6 @@
 
-version: '3.9'
-
 services:
-  database: 
+  event_service_database: 
     container_name: event_ms_db
     image: postgres:15
     ports:
@@ -15,6 +13,7 @@ services:
       - event_ms_db:/var/lib/postgresql/data
     networks:
       - keycloak-net
+
   keycloak_db_service: 
     container_name: keycloak_db
     image: postgres:15
@@ -47,9 +46,46 @@ services:
     networks:
       - keycloak-net
 
+  api-gateway:
+    build:
+      context: ./eventify-api-gateway
+      dockerfile: Dockerfile
+    container_name: eventify_api_gateway
+    ports:
+      - "8765:8765"
+    depends_on:
+      - keycloak
+      - name-server
+    networks:
+      - keycloak-net
+      
+
+  config-server:
+    build:
+      context: ./eventify-config-server
+      dockerfile: Dockerfile
+    container_name: eventify_config_server
+    ports:
+      - "8888:8888"
+    networks:
+      - keycloak-net
+    depends_on:
+      - name-server
+
+  name-server:
+    build:
+      context: ./eventify-name-server
+      dockerfile: Dockerfile
+    container_name: eventify_name_server
+    ports:
+      - "8761:8761"
+    networks:
+      - keycloak-net
+
 volumes:
   keycloak-db-data:
   event_ms_db:
 
 networks:
   keycloak-net:
+     

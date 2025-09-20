@@ -20,8 +20,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionDevice {
     
-
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseErrorDTO> methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request){
         Map<String, String> errors = new HashMap<>();
