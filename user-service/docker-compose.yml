@@ -6,11 +6,24 @@ services:
     container_name: user_ms_db
     image: postgres:15
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: user_service_db
+    volumes:
+      - user_ms_db:/var/lib/postgresql/data
+    networks:
+      - keycloak-net
+  keycloak_db_service: 
+    container_name: keycloak_db
+    image: postgres:15
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: keycloak_db
     volumes:
       - keycloak-db-data:/var/lib/postgresql/data
     networks:
@@ -21,7 +34,7 @@ services:
     container_name: keycloak
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://database:5432/user_service_db
+      KC_DB_URL: jdbc:postgresql://keycloak_db_service:5432/keycloak_db
       KC_DB_USERNAME: root
       KC_DB_PASSWORD: root
       KEYCLOAK_ADMIN: admin
@@ -36,6 +49,7 @@ services:
 
 volumes:
   keycloak-db-data:
+  user_ms_db:
 
 networks:
   keycloak-net:
