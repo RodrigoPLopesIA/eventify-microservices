@@ -44,4 +44,15 @@ public class ExceptionDevice {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDTO);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseErrorDTO> illegalArgumentException(IllegalArgumentException ex, HttpServletRequest request){
+        ResponseErrorDTO errorDTO = new ResponseErrorDTO(
+            request.getPathInfo(),
+            HttpStatus.BAD_REQUEST,
+            ex.getMessage(),
+            null
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
+    }
 }
