@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,16 +38,18 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserRepresentation> index(@AuthenticationPrincipal Jwt jwt) {
-        String username = jwt.getClaimAsString("preferred_username");
-        UserRepresentation user = keycloakService.getProfile(username);
+        String userId = jwt.getSubject();
+        UserRepresentation user = keycloakService.getProfile(userId);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping
-    public ResponseEntity update(@AuthenticationPrincipal Jwt jwt, @RequestBody RequestProfileDTO data) {
-        String username = jwt.getClaimAsString("preferred_username");
-        keycloakService.updateProfile(username, data);;
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserRepresentation> update(@AuthenticationPrincipal Jwt jwt, @RequestBody RequestProfileDTO data) {
+        String userId = jwt.getSubject();
+        UserRepresentation updateProfile = keycloakService.updateProfile(userId, data);
+        return ResponseEntity.ok().body(updateProfile);
     }
+
+    
     
 }
