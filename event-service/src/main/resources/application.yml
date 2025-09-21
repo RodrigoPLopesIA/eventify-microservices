@@ -7,13 +7,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/eventify-realm
-
+          jwk-set-uri: http://keycloak:8080/realms/eventify-realm/protocol/openid-connect/certs
   profiles:
-    active:
-    - dev
+    active: dev
+
 eureka:
   client:
     service-url:
-      defaultZone: http://name-server:8761/eureka 
-  
+      defaultZone: http://name-server:8761/eureka

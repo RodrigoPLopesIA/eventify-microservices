@@ -84,8 +84,6 @@ services:
       - "8888:8888"
     networks:
       - keycloak-net
-    depends_on:
-      - name-server
 
   name-server:
     build:
