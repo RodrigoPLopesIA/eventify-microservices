@@ -6,12 +6,19 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.rodrigo.ms.event_service.dtos.RequestEventDTO;
 import br.com.rodrigo.ms.event_service.dtos.ResponseEventDTO;
 import br.com.rodrigo.ms.event_service.entities.Event;
+import br.com.rodrigo.ms.event_service.exceptions.ResponseErrorDTO;
 import br.com.rodrigo.ms.event_service.services.EventService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -28,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/events")
+@Slf4j
 public class EventController {
 
     @Autowired
@@ -46,14 +54,17 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
     
+    @RateLimiter(name = "default")
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseEventDTO> getEventById(@PathVariable("id") String id) {
+    public ResponseEntity<ResponseEventDTO> show(@PathVariable("id") String id) {
+        log.info("Request received for GET /events/{}", id);
         ResponseEventDTO event = eventService.findById(id);
         return ResponseEntity.ok(event);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseEventDTO> updateEvent(
+    public ResponseEntity<ResponseEventDTO> update(
             @PathVariable("id") String id,
             @Valid @RequestBody RequestEventDTO data,
             @AuthenticationPrincipal Jwt jwt) {
@@ -64,7 +75,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable("id") String id, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> delete(@PathVariable("id") String id, @AuthenticationPrincipal Jwt jwt) {
         String organizerId = jwt.getSubject();
         eventService.deleteEvent(id, organizerId);
         return ResponseEntity.noContent().build();

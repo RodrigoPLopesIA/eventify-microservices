@@ -11,6 +11,14 @@ spring:
   profiles:
     active: dev
 
+resilience4j:
+  ratelimiter:
+    instances:
+      default:
+        limit-for-period: 2
+        limit-refresh-period: 10s
+      
+
 eureka:
   client:
     service-url:
