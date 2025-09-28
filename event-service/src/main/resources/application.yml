@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: event-service
+  config:
+    import: "optional:configserver:http://config-server:8888/"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8080/realms/eventify-realm/protocol/openid-connect/certs
+  profiles:
+    active: dev
+
+resilience4j:
+  ratelimiter:
+    instances:
+      default:
+        limit-for-period: 2
+        limit-refresh-period: 10s
+      
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://name-server:8761/eureka

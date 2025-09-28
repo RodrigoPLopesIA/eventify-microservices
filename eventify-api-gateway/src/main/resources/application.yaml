@@ -13,15 +13,22 @@ spring:
             locator:
               enabled: true
               lower-case-service-id: true
-
           routes:
-            - id: user-service
-              uri: lb://user-service
+            - id: event-service
+              uri: lb://event-service
               predicates:
-                - Path=/profile/**
+                - Path=/events/**
               filters: []
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/eventify-realm
+          issuer-uri: http://keycloak:8080/realms/eventify-realm
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://name-server:8761/eureka 
+
+
