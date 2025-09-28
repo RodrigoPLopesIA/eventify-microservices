@@ -2,10 +2,8 @@
 services:
 
   event_service:
-    container_name: event_ms_service
-    build: 
-      context: ./event-service
-      dockerfile: Dockerfile
+    container_name: eventfy-event-service
+    image: rodrigolopes2022/eventify-event-service:latest
     ports:
       - "8081:8080"
     depends_on:
@@ -65,9 +63,7 @@ services:
       - keycloak-net
 
   api-gateway:
-    build:
-      context: ./eventify-api-gateway
-      dockerfile: Dockerfile
+    image: rodrigolopes2022/eventify-api-gateway:latest
     container_name: eventify_api_gateway
     ports:
       - "8765:8765"
@@ -88,9 +84,7 @@ services:
       
 
   config-server:
-    build:
-      context: ./eventify-config-server
-      dockerfile: Dockerfile
+    image: rodrigolopes2022/eventify-config-server:latest
     container_name: eventify_config_server
     ports:
       - "8888:8888"
@@ -104,9 +98,7 @@ services:
       - keycloak-net
 
   name-server:
-    build:
-      context: ./eventify-name-server
-      dockerfile: Dockerfile
+    image: rodrigolopes2022/eventify-registry-server-eureka
     container_name: eventify_name_server
     ports:
       - "8761:8761"
