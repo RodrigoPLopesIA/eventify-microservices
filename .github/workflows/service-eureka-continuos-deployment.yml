@@ -30,9 +30,9 @@ jobs:
                 password: ${{secrets.DOCKER_ACCESS_SECRET}}
 
             - name: "Create Docker build"
-              run: docker build -t ${{secrets.DOCKER_USERNAME}}/eventify-registry-server-eureka .
+              run: docker build -t rodrigolopes2022/eventify-registry-server-eureka .
 
             - name: "Push image"
-              run: docker push ${{secrets.DOCKER_USERNAME}}/eventify-registry-server-eureka:latest
+              run: docker push rodrigolopes2022/eventify-registry-server-eureka:latest
             
             
